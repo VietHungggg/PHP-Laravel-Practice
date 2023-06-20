@@ -12,13 +12,13 @@
     {{-- <h3>{{ $name }}</h3> --}}
 
     {{-- Muốn lấy dữ liệu từ 1 array thì phải dùng foreach --}}
-    {{-- @foreach ($info as $item)
+    @foreach ($info as $item)
         <h3>{{ $item }}</h3>
-    @endforeach --}}
+    @endforeach
 
-    @foreach ($products as $item)
+    {{-- @foreach ($products as $item)
         <h3>{{ $item }}</h3>
-    @endforeach    
+    @endforeach     --}}
 
 </body>
 </html>

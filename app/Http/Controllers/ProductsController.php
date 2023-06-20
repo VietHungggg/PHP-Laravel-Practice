@@ -39,10 +39,10 @@ class ProductsController extends Controller
     // }
 
     // Tham số là kiêu string
-    public function detail($productName, $id){
-        return "Product name : ".$productName."<br>".
-        "Product ID : ".$id;
-    }
+    // public function detail($productName, $id){
+    //     return "Product name : ".$productName."<br>".
+    //     "Product ID : ".$id;
+    // }
 
     // Tham số nhận vào là 1 array
     // public function detail($id){

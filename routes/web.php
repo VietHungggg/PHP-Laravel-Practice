@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\PagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,10 +36,10 @@ use App\Http\Controllers\ProductsController;
 //     return redirect ('/');
 // });
 
-Route::get('/products',[
-    ProductsController::class,
-    'index',
-]);
+// Route::get('/products',[
+//     ProductsController::class,
+//     'index',
+// ]);
 
 // Router có truyền tham số (validation theo int)
 // Route::get('/products/{id}',[
@@ -47,15 +48,17 @@ Route::get('/products',[
 // ])->where('id', '[0-9]+');
 
 // Router có truyền tham số (validation theo string)
-Route::get('/products/{productName}/{id}',[
-    ProductsController::class,
-    'detail',
-])->where([
-    'productName' => '[a-zA-Z0-9]+',
-    'id' => '[a-zA-Z0-9]+',
-]);
+// Route::get('/products/{productName}/{id}',[
+//     ProductsController::class,
+//     'detail',
+// ])->where([
+//     'productName' => '[a-zA-Z0-9]+',
+//     'id' => '[a-zA-Z0-9]+',
+// ]);
 
+Route::get('/',[PagesController::class,'index']);
 
+Route::get('/about',[PagesController::class, 'about']);
 
 
 
