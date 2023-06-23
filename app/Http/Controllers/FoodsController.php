@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Food;
+use App\Models\Category;
+use App\Rules\Uppercase;
+use App\Http\Requests\CreateValidationRequest;
 
 class FoodsController extends Controller
 {
@@ -21,10 +24,45 @@ class FoodsController extends Controller
     }
 
     public function create(){
-        return view('foods.create');
+        $categories = Category::all();
+        return view('foods.create')->with('categories',$categories);
     }
 
     public function store(Request $request){
+
+        // Custom validation request method
+        // public function store(CreateValidationRequest $request){
+
+        // dd($request->all());
+        // Image validation 
+        // Lấy ra đuôi file 
+        // dd($request->file('image')->guessExtension());
+        // Check original name
+        // dd($request->file('image')->getClientOriginalName());
+        // Check type
+        // dd($request->file('image')->getMimeType());
+        // Get size
+        // dd($request->file('image')->getSize());
+
+        $request ->validate([
+            'name' => 'required',
+            'count' => 'required | integer | min:0 | max:200',
+            'description' => 'required',
+            'image' => 'required | mimes:jpg, png, gif, jpeg|max:10000000000'
+        ]);
+        $generatedImageName = 'images-' 
+                                .time()
+                                .'-'.$request->name
+                                .'.'.$request->image->extension();
+        // dd($generatedImageName);
+
+        // Chuyền hình ảnh đến thư mục public bên trong project
+        $request->image->move(public_path('images'),$generatedImageName);
+
+        // dd($request->all());
+        // Custom validation
+        // $request->validated();
+
 
         // Cách 1
         // $foods = new Food();
@@ -33,10 +71,21 @@ class FoodsController extends Controller
         // $foods->description = $request->input('description');
 
         // Cách 2
+
+        // Validate
+        // $request->validate([
+        //     // 'name' =>'required | unique:foods',
+        //     'name' =>new Uppercase,
+        //     'description' =>'required| integer | min:1, maximum:1000',
+        //     'count'=>'required',
+        // ]);
+
         $foods = Food::create([
             'name' => $request->input('name'),
             'count' => $request->input('count'),
             'description' => $request->input('description'),
+            'category_id' => $request->input('category_id'),
+            'image_path' =>$generatedImageName,
         ]);
         $foods->save();
         return redirect('/foods');
@@ -47,7 +96,11 @@ class FoodsController extends Controller
         return view('foods/edit')->with('foods', $foods);
     }
 
-    public function update(Request $request, $id) {
+    // public function update(Request $request, $id) {
+    public function update(CreateValidationRequest $request, $id) {
+
+        $request->validated();
+
         $foods = Food::where('id', $id)
                     ->update([
                         'name' => $request->input('name'),
@@ -65,6 +118,9 @@ class FoodsController extends Controller
 
     public function show($id){
         $foods = Food::find($id);
+        $category = Category::find($foods->category_id);
+        $foods->category = $category;
+        // dd($foods);
         return view('foods.show')->with('foods', $foods);
     }
 

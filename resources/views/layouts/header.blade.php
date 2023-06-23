@@ -12,6 +12,10 @@
             <a class="{{ request()->is('about') ? 'active' : '' }}" 
                 href="about">AboutMe</a>
           </li>
+          <li class="nav-link" style="margin-left: 20px">
+            <a class="{{ request()->is('foods') ? 'active' : '' }}" 
+                href="foods">Foods</a>
+          </li>
           {{-- <li class="nav-item">
             <a class="nav-link" href="profile">Profile</a>
           </li>

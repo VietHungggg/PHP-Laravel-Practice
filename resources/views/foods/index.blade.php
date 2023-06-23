@@ -7,7 +7,8 @@
     <h1>Update Food</h1>
 
     <a href="foods/create" 
-        class="btn btn-primary" role="button">
+        class="btn btn-primary" role="button"
+        style="margin-bottom:20px">
         New Food
     </a>
     
