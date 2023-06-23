@@ -22,7 +22,7 @@ class CreateValidationRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'name' =>'required | unique:foods',
+                'name' =>'required',
                 'description' =>'required| integer | min:1, maximum:1000',
                 'count'=>'required',
         ];

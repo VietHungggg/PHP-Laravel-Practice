@@ -15,22 +15,27 @@
     @foreach ($foods as $foods)
 
         <li class="list-group-item d-flex justify-content-between align-items">
-            <div class="ms-2 me-auto">
+            <div class="ms-2 me-auto" >
                 <a href="/foods/{{ $foods->id }}">
                     {{ $foods->name }}
                 </a>
                 {{ $foods -> description }}
+                <p style="margin-left: 20px">{{ 'Count: '.$foods -> count }}
+                </p>
             </div>
-            <span class="badge bg-primary">
+            <form action="/foods/{{ $foods->id }}/edit">
+                <button type="submit" class="btn btn-success" style="margin-right: 20px">Edit</button>
+            </form>
+            <form action="/foods/{{ $foods->id }}" method="POST">
+                @csrf
+                @method('delete')
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            {{-- <span class="badge bg-primary">
                 {{ 'Count: '.$foods -> count }}
-            </span>
-            <a href="foods/{{$foods->id}}/edit"> Edit</a>
+            </span> --}}
+            {{-- <a href="foods/{{$foods->id}}/edit" style="margin-left: 20px"> Edit</a> --}}
         </li>
-        <form action="/foods/{{ $foods->id }}" method="POST">
-            @csrf
-            @method('delete')
-            <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
     @endforeach
 
 @endsection

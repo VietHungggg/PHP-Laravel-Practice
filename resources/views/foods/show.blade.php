@@ -11,7 +11,7 @@
     <h3>Food image : </h3>    
     <img src="{{ asset('images/' . $foods->image_path) }}" 
         alt="" 
-        width="500px" 
-        height="300px" 
+        width="400px" 
+        height="400px" 
         style="margin-bottom:30px">
 @endsection

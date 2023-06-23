@@ -48,7 +48,7 @@ class FoodsController extends Controller
             'name' => 'required',
             'count' => 'required | integer | min:0 | max:200',
             'description' => 'required',
-            'image' => 'required | mimes:jpg, png, gif, jpeg|max:10000000000'
+            'image' => 'required | mimes:jpg,png,gif,jpeg|max:10000000000'
         ]);
         $generatedImageName = 'images-' 
                                 .time()
@@ -93,19 +93,35 @@ class FoodsController extends Controller
 
     public function edit($id) {
         $foods = Food::find($id);
-        return view('foods/edit')->with('foods', $foods);
+        $categories = Category::all();
+        return view('foods/edit')->with('foods', $foods)->with('categories', $categories);
     }
 
     // public function update(Request $request, $id) {
-    public function update(CreateValidationRequest $request, $id) {
+    public function update(Request $request, $id) {
 
-        $request->validated();
+        $request ->validate([
+            'name' => 'required',
+            'count' => 'required | integer | min:0 | max:200',
+            'description' => 'required',
+            'image' => 'required | mimes:jpg,png,gif,jpeg|max:10000000000'
+        ]);
+        $generatedImageName = 'images-' 
+                                .time()
+                                .'-'.$request->name
+                                .'.'.$request->image->extension();
+        // dd($generatedImageName);
+
+        // Chuyền hình ảnh đến thư mục public bên trong project
+        $request->image->move(public_path('images'),$generatedImageName);
 
         $foods = Food::where('id', $id)
                     ->update([
                         'name' => $request->input('name'),
                         'count' => $request->input('count'),
                         'description' => $request->input('description'),
+                        'category_id' => $request->input('category_id'),
+                        'image_path' =>$generatedImageName,
                     ]);
         return redirect('/foods');
     }
